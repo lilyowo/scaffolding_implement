@@ -36,6 +36,27 @@ void writeToFile(const unordered_map<string, ContigInfo> &mergedGraph,
     cerr << "Unable to open output file." << endl;
   }
 }
+
+
+void writeCIToFile(const vector<ConservedInterval> &CI, string outFileName) {
+  ofstream output(outFileName); // Open the output file
+
+  if (output.is_open()) {
+    int lineNumber = 1;
+    for(size_t i=0; i<CI.size(); i++) {
+      //cout<<"ICI[ "<<i<<" ]: a1= "<<ICI[i].ida1<<", b1= "<<ICI[i].idb1 <<endl;
+      output <<"CI[ "<<i<<" ]: a1= "<<CI[i].ida1<<", b1= "<<CI[i].idb1 <<"\n";
+      
+      
+    }
+    output.close(); // Close the output file
+  } else {
+    cerr << "Unable to open output file." << endl;
+  }
+}
+
+
+
 int main() {
   // 讀取 input 檔案並建立 contig adjacency graph
   unordered_map<string, ContigInfo> genome1 =
@@ -50,8 +71,12 @@ int main() {
   vector<ConservedInterval> 
  CI = findConservedInterval(G1markerArr, G2markerArr);
   cout<<"Conserved Interval found"<<endl;
-  
-  
+  writeCIToFile(CI, "myCI.txt");
+  // for(size_t i=0; i<CI.size(); i++) cout<<"CI[ "<<i<<" ]: a1= "<<CI[i].ida1<<", b1= "<<CI[i].idb1 <<endl;
+
+  cout<<"Irriducible conserved interval found"<<endl;
+  vector<ConservedInterval> ICI = findICI(CI);
+  writeCIToFile(ICI, "myICI.txt");
   
   cout << "owo complete!";
 
