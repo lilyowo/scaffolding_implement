@@ -1,6 +1,7 @@
 #include "dataInput.h"
 #include "findCI.h"
 #include "findICI.h"
+#include "ConnectICI.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -61,6 +62,7 @@ int main() {
   // 讀取 input 檔案並建立 contig adjacency graph
   unordered_map<string, ContigInfo> genome1 =
       buildContigGraph("query_merged.txt");
+  writeToFile(genome1, "Original.txt");
   cout<<"Contig Graph builded"<<endl;
   //writeToFile(genome1, "try.txt");
   vector<marker> G1markerArr = markerArr("query_merged.txt");
@@ -74,9 +76,14 @@ int main() {
   writeCIToFile(CI, "myCI.txt");
   // for(size_t i=0; i<CI.size(); i++) cout<<"CI[ "<<i<<" ]: a1= "<<CI[i].ida1<<", b1= "<<CI[i].idb1 <<endl;
 
-  cout<<"Irriducible conserved interval found"<<endl;
+  // cout<<"Irriducible conserved interval found"<<endl;
   vector<ConservedInterval> ICI = findICI(CI);
   writeCIToFile(ICI, "myICI.txt");
+  cout<<"Irriducible conserved interval found"<<endl;
+
+  unordered_map<string, ContigInfo>mergedGenome = ConnectICI(ICI,genome1);
+  writeToFile(mergedGenome, "ICI_Merged.txt");
+  cout<<"ICI be merged!"<<endl;
   
   cout << "owo complete!";
 
