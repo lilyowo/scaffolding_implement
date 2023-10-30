@@ -13,4 +13,5 @@ using namespace std;
 #define CONNECTICI_H
 //here your code
 unordered_map<string, ContigInfo> ConnectICI(vector<ConservedInterval> ICI, unordered_map<string, ContigInfo> G1);
+unordered_map<string, ContigInfo> GetFreeMarkers();
 #endif 

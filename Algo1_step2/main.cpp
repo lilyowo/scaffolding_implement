@@ -84,7 +84,10 @@ int main() {
   unordered_map<string, ContigInfo>mergedGenome = ConnectICI(ICI,genome1);
   writeToFile(mergedGenome, "ICI_Merged.txt");
   cout<<"ICI be merged!"<<endl;
-  
+
+  unordered_map<string, ContigInfo>FreeMarkers = GetFreeMarkers();
+  writeToFile(FreeMarkers, "FreeMarkers.txt");
+  cout<<"Free Markers found"<<endl;
   cout << "owo complete!";
 
   return 0;

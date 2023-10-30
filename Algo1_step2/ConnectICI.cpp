@@ -22,6 +22,7 @@ using namespace std;
 
 最後 怎麼把接起來的contig存起來
 */
+unordered_map<string, ContigInfo> FreeMarkers;
 unordered_map<string, ContigInfo>
 ConnectICI(vector<ConservedInterval> ICI,
            unordered_map<string, ContigInfo> G1) {
@@ -40,10 +41,12 @@ ConnectICI(vector<ConservedInterval> ICI,
     string keyA, keyB;
     keyA = contigName;
     for (size_t i = 0; i < ICI.size(); i++) {
-      if(ICI[i].belongContig[i].size()<=1) continue;
+      if (ICI[i].belongContig[i].size() <= 1)
+        continue;
       if (ICI[i].belongContig[0] == ICI[i].belongContig[1])
         continue;
-      // cout<<"ContigA: "<<ICI[i].belongContig[0]<<"\nContigB: "<<ICI[i].belongContig[1]<<endl;
+      // cout<<"ContigA: "<<ICI[i].belongContig[0]<<"\nContigB:
+      // "<<ICI[i].belongContig[1]<<endl;
       if (ICI[i].belongContig[0] == contigName) {
         keyA = contigName;
         for (const auto contig2 : G1) {
@@ -75,14 +78,16 @@ ConnectICI(vector<ConservedInterval> ICI,
         } // for contig 2 end
 
       } // if it can merge end
-      if (merged) break;
+      if (merged)
+        break;
     } // for ICI end
     if (merged) {
-      cout<<"merge contig:"<<keyA<<" "<<keyB<<endl;
+      cout << "merge contig:" << keyA << " " << keyB << endl;
       G1.erase(keyA);
       G1.erase(keyB);
     } else {
-      
+      //把這些紀錄進free markers( for step 3)
+      FreeMarkers[contigName] = contigInfo;
       ans[contigName] = contigInfo;
       G1.erase(keyA);
     }
@@ -90,3 +95,4 @@ ConnectICI(vector<ConservedInterval> ICI,
 
   return ans;
 }
+unordered_map<string, ContigInfo> GetFreeMarkers() { return FreeMarkers; }
